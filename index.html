@@ -18,9 +18,10 @@
 <body>
   <div id="root"></div>
   <script type="text/babel">
-    // Ensure ReactLeaflet is loaded
+    // Add a check to ensure ReactLeaflet is available before proceeding.
+    // This part of the code is executed after the ReactLeaflet script has been loaded.
     if (!window.ReactLeaflet) {
-      console.error('ReactLeaflet not loaded');
+      console.error('ReactLeaflet not loaded. Ensure react-leaflet.min.js is loaded and accessible.');
       throw new Error('ReactLeaflet failed to load');
     }
     const { MapContainer, TileLayer, Marker, Popup } = window.ReactLeaflet;
@@ -261,7 +262,7 @@
                             <p>Message: {alert.message || 'N/A'}</p>
                             <p>Time: {new Date(alert.created_at).toLocaleString()}</p>
                             <button
-                              onClick={() => window.open(`https://www.google.com/maps?q=${alert.latitude},${alert.longitude}`, '_blank')}
+                              onClick={() => window.open(`https://www.google.com/maps?q=$${alert.latitude},${alert.longitude}`, '_blank')}
                               className="text-blue-600 underline"
                             >
                               Open in Google Maps
@@ -308,7 +309,7 @@
                               <td className="px-4 py-2">
                                 {sosAlert ? (
                                   <button
-                                    onClick={() => window.open(`https://www.google.com/maps?q=${sosAlert.latitude},${sosAlert.longitude}`, '_blank')}
+                                    onClick={() => window.open(`https://www.google.com/maps?q=$${sosAlert.latitude},${sosAlert.longitude}`, '_blank')}
                                     className="text-blue-600 underline"
                                   >
                                     View Location ({sosAlert.latitude}, {sosAlert.longitude})
@@ -352,7 +353,7 @@
                             <p>Message: {alert.message || 'N/A'}</p>
                             <p>Time: {new Date(alert.created_at).toLocaleString()}</p>
                             <button
-                              onClick={() => window.open(`https://www.google.com/maps?q=${alert.latitude},${alert.longitude}`, '_blank')}
+                              onClick={() => window.open(`https://www.google.com/maps?q=$${alert.latitude},${alert.longitude}`, '_blank')}
                               className="text-blue-600 underline"
                             >
                               Open in Google Maps
@@ -371,7 +372,7 @@
                       <p>Location: {alert.latitude}, {alert.longitude}</p>
                       <p>Created: {new Date(alert.created_at).toLocaleString()}</p>
                       <button
-                        onClick={() => window.open(`https://www.google.com/maps?q=${alert.latitude},${alert.longitude}`, '_blank')}
+                        onClick={() => window.open(`https://www.google.com/maps?q=$${alert.latitude},${alert.longitude}`, '_blank')}
                         className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
                       >
                         View on Map
