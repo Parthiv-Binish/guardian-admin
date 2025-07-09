@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Guardian Admin Dashboard</title>
+  <link rel="icon" href="/favicon.ico" />
   <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios@1.7.7/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.25.7/babel.min.js"></script>
-  <!-- Leaflet and React-Leaflet for map -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/react-leaflet@4.2.1/dist/react-leaflet.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -19,7 +19,7 @@
   <div id="root"></div>
   <script type="text/babel">
     const { useState, useEffect } = React;
-    const { MapContainer, TileLayer, Marker, Popup } = ReactLeaflet;
+    const { MapContainer, TileLayer, Marker, Popup } = window.ReactLeaflet;
 
     // Supabase configuration
     const supabaseUrl = 'https://pxbdnldmavufqxmiebkq.supabase.co';
@@ -41,7 +41,7 @@
         checkUser();
         fetchData();
 
-        // Subscribe to users table for real-time updates
+        // Subscribe to users table
         const userSubscription = supabase
           .channel('users')
           .on('postgres_changes', { event: '*', schema: 'public', table: 'users' }, () => {
@@ -49,7 +49,7 @@
           })
           .subscribe();
 
-        // Subscribe to active_alerts_with_user_details for real-time SOS updates
+        // Subscribe to active_alerts_with_user_details
         const sosSubscription = supabase
           .channel('active_alerts_with_user_details')
           .on('postgres_changes', { event: '*', schema: 'public', table: 'active_alerts_with_user_details' }, () => {
@@ -67,7 +67,7 @@
       async function checkUser() {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          if (user.email === 'adminparthiv@example.com') {
+          if (user.email === 'admin@example.com') {
             setUser(user);
           } else {
             setError('Access denied: Admins only');
@@ -154,7 +154,7 @@
 
       // Handle logout
       async function handleLogout() {
-        await supabase.auth.signOut({});
+        await supabase.auth.signOut();
         setUser(null);
       }
 
@@ -277,6 +277,7 @@
                           <th className="px-4 py-2">Name</th>
                           <th className="px-4 py-2">Email</th>
                           <th className="px-4 py-2">Phone</th>
+                          <th className="px-4 py-2">FCM Token</th>
                           <th className="px-4 py-2">Created At</th>
                           <th className="px-4 py-2">Active SOS</th>
                           <th className="px-4 py-2">Actions</th>
@@ -297,6 +298,7 @@
                               <td className="px-4 py-2">{user.name || 'N/A'}</td>
                               <td className="px-4 py-2">{user.email || 'N/A'}</td>
                               <td className="px-4 py-2">{user.phone || 'N/A'}</td>
+                              <td className="px-4 py-2">{user.fcm_token || 'N/A'}</td>
                               <td className="px-4 py-2">{new Date(user.created_at).toLocaleString()}</td>
                               <td className="px-4 py-2">
                                 {sosAlert ? (
