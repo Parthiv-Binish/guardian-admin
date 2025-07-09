@@ -22,8 +22,8 @@
     const { MapContainer, TileLayer, Marker, Popup } = ReactLeaflet;
 
     // Supabase configuration
-    const supabaseUrl = 'YOUR_SUPABASE_URL';
-    const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
+    const supabaseUrl = 'https://pxbdnldmavufqxmiebkq.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB4YmRubGRtYXZ1ZnF4bWllYmtxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5ODUzNzMsImV4cCI6MjA2NzU2MTM3M30.vWP6Bz30q_HDw0f0xb7kOZaqcMBn_ulrT6BUAiGNmKM';
     const supabase = Supabase.createClient(supabaseUrl, supabaseKey);
 
     // Admin Dashboard Component
@@ -67,7 +67,7 @@
       async function checkUser() {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          if (user.email === 'admin@example.com') {
+          if (user.email === 'adminparthiv@example.com') {
             setUser(user);
           } else {
             setError('Access denied: Admins only');
@@ -277,7 +277,6 @@
                           <th className="px-4 py-2">Name</th>
                           <th className="px-4 py-2">Email</th>
                           <th className="px-4 py-2">Phone</th>
-                          <th className="px-4 py-2">FCM Token</th>
                           <th className="px-4 py-2">Created At</th>
                           <th className="px-4 py-2">Active SOS</th>
                           <th className="px-4 py-2">Actions</th>
@@ -298,7 +297,6 @@
                               <td className="px-4 py-2">{user.name || 'N/A'}</td>
                               <td className="px-4 py-2">{user.email || 'N/A'}</td>
                               <td className="px-4 py-2">{user.phone || 'N/A'}</td>
-                              <td className="px-4 py-2">{user.fcm_token || 'N/A'}</td>
                               <td className="px-4 py-2">{new Date(user.created_at).toLocaleString()}</td>
                               <td className="px-4 py-2">
                                 {sosAlert ? (
